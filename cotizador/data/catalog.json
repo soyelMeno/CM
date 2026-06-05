@@ -1,0 +1,29 @@
+{
+  "venta": [
+    { "id": "v01", "tag": "SET MEDIOS",    "name": "Set de medios 2 vías KICKER 6.5\"",               "desc": "Set de medios 2 vías KICKER 6.5\", potencia 100W RMS, respuesta 55Hz–21kHz",    "price": 3890, "unit": "pza" },
+    { "id": "v02", "tag": "BOCINA COX",    "name": "Bocina coaxial KICKER 6.5\"",                      "desc": "Bocina coaxial KICKER 6.5\", 2 vías, 75W RMS",                                  "price": 2200, "unit": "pza" },
+    { "id": "v03", "tag": "BASE BOC",      "name": "Base para montaje de bocinas",                    "desc": "Base adaptadora para montaje de bocinas en puerta",                            "price": 250,  "unit": "pza" },
+    { "id": "v04", "tag": "AMP AUDIOC",    "name": "Amplificador AUDIOCONTROL 5 canales Epicfive",    "desc": "Amplificador AUDIOCONTROL 5 canales, modelo Epicfive, 80W x5 RMS",             "price": 5700, "unit": "pza" },
+    { "id": "v05", "tag": "KIT CABLES",    "name": "Kit de cables completo 90% cobre RCA SUONO cal. 4","desc": "Kit de cables completo; 90% cobre, RCA's SUONO, línea principal en calibre 4", "price": 5000, "unit": "kit" },
+    { "id": "v06", "tag": "SUB 8 AUD",     "name": "Subwoofer 8\" AUDIOLABS 200W",                    "desc": "Subwoofer 8\" AUDIOLABS, 200W RMS, bobina simple 4Ω",                           "price": 2200, "unit": "pza" },
+    { "id": "v07", "tag": "CAJÓN 8\"",     "name": "Cajón acústico subwoofer 8\" vinilpiel negro",    "desc": "Cajón acústico sellado para subwoofer 8\", acabados en vinilpiel negro",        "price": 3900, "unit": "pza" },
+    { "id": "v08", "tag": "SUB 12 KIC",    "name": "Subwoofer Kicker 12\"",                           "desc": "Subwoofer Kicker CompR 12\", 500W RMS, bobina doble 2Ω",                        "price": 4500, "unit": "pza" },
+    { "id": "v09", "tag": "AMP PIONEER",   "name": "Amplificador Pioneer GM-A",                      "desc": "Amplificador Pioneer GM-A3702, 2 canales, 75W x2 RMS",                         "price": 1800, "unit": "pza" },
+    { "id": "v10", "tag": "BOC JBL",       "name": "Bocinas JBL 6.5\"",                               "desc": "Bocinas coaxiales JBL Club 6520, 6.5\", 2 vías, 60W RMS",                      "price": 950,  "unit": "pza" },
+    { "id": "v11", "tag": "PANTALLA 9",    "name": "Pantalla Pioneer 9\"",                            "desc": "Pantalla Pioneer DMH-WT8600NEX, 9\" táctil, Apple CarPlay / Android Auto",     "price": 3200, "unit": "pza" },
+    { "id": "v12", "tag": "CAM REV",       "name": "Cámara de reversa",                               "desc": "Cámara de reversa 170° HD, visión nocturna, conector RCA",                    "price": 650,  "unit": "pza" },
+    { "id": "v13", "tag": "RCA 5M",        "name": "Cable RCA 5m",                                    "desc": "Cable RCA blindado 2 canales, 5 metros, baja interferencia",                   "price": 180,  "unit": "pza" },
+    { "id": "v14", "tag": "CAPACITOR",     "name": "Kit capacitor 1F",                                "desc": "Capacitor de arranque 1 Farad con indicador de voltaje digital",               "price": 420,  "unit": "pza" },
+    { "id": "v15", "tag": "TWEETS JBL",    "name": "Tweeters JBL",                                    "desc": "Tweeters JBL Club 750T, 105W pico, 3/4\", incluye cruce pasivo",               "price": 380,  "unit": "par" }
+  ],
+  "mdo": [
+    { "id": "m01", "tag": "INST AMP",      "name": "Instalación amplificador",      "desc": "Mano de obra instalación y calibración de amplificador",          "price": 1500, "unit": "serv" },
+    { "id": "m02", "tag": "INST MEDIOS",   "name": "Instalación set de medios",     "desc": "Mano de obra instalación set de medios 2 vías con cruce",         "price": 1800, "unit": "serv" },
+    { "id": "m03", "tag": "INST BOC TR",   "name": "Instalación bocinas traseras",  "desc": "Mano de obra instalación bocinas traseras",                       "price": 600,  "unit": "serv" },
+    { "id": "m04", "tag": "INST SUB",      "name": "Instalación subwoofer",         "desc": "Mano de obra instalación subwoofer y cajón acústico",             "price": 350,  "unit": "serv" },
+    { "id": "m05", "tag": "INST PANT",     "name": "Instalación pantalla",          "desc": "Mano de obra instalación pantalla multimedios con interfaz",      "price": 450,  "unit": "serv" },
+    { "id": "m06", "tag": "INST CAM",      "name": "Instalación cámara",            "desc": "Mano de obra instalación cámara de reversa con integración",      "price": 200,  "unit": "serv" },
+    { "id": "m07", "tag": "CABLEADO",      "name": "Cableado completo",             "desc": "Mano de obra cableado completo del sistema de audio",             "price": 280,  "unit": "serv" },
+    { "id": "m08", "tag": "INST BOC",      "name": "Instalación bocinas",           "desc": "Mano de obra instalación bocinas frontales",                      "price": 180,  "unit": "serv" }
+  ]
+}

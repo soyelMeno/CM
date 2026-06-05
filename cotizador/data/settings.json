@@ -1,0 +1,15 @@
+{
+  "taller": {
+    "nombre": "MC Auto Sound Design",
+    "telefono": "",
+    "ciudad": "Villahermosa, Tabasco"
+  },
+  "folio": {
+    "prefijo": "COT",
+    "contador": 0
+  },
+  "cotizacion": {
+    "validez_dias": 30,
+    "nota_footer": "Esta cotización es válida por 30 días. Precios sujetos a cambios sin previo aviso."
+  }
+}

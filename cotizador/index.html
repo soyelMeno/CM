@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <title>MC Auto Sound Design — Cotizador</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Status bar simulada -->
+  <div class="sb">
+    <span id="clock">9:41</span>
+    <span><i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span>
+  </div>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-title">Nueva cotización</div>
+    <div class="hdr-sub" id="folio-hdr">Generando folio…</div>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="stp">
+      <div class="stp-dot active" id="sd1">1</div>
+      <div class="stp-line" id="sl1"></div>
+    </div>
+    <div class="stp">
+      <div class="stp-dot" id="sd2">2</div>
+      <div class="stp-line" id="sl2"></div>
+    </div>
+    <div class="stp">
+      <div class="stp-dot" id="sd3">3</div>
+    </div>
+  </div>
+
+  <!-- ===== SCREENS ===== -->
+  <div class="screens">
+
+    <!-- ── SCREEN 1: CLIENTE ── -->
+    <div class="screen active" id="s1">
+      <div class="scroll-area">
+
+        <div class="field">
+          <label for="f-nombre">Nombre del cliente</label>
+          <input id="f-nombre" type="text" placeholder="Ej. Carlos Mendoza"
+                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+        </div>
+
+        <div class="field">
+          <label for="f-vehiculo">Vehículo</label>
+          <input id="f-vehiculo" type="text" placeholder="Ej. Honda Civic 2022"
+                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="f-fecha">Fecha</label>
+            <input id="f-fecha" type="date"/>
+          </div>
+          <div class="field">
+            <label for="f-dias">Días estimados</label>
+            <input id="f-dias" type="number" placeholder="2" min="1" max="999"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Folio</label>
+          <input class="readonly" id="f-folio" type="text" readonly
+                 tabindex="-1" aria-label="Folio generado automáticamente"/>
+        </div>
+
+      </div>
+      <div class="bot">
+        <button class="btn btn-primary" onclick="goTo(2)">
+          Agregar conceptos <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 2: CONCEPTOS ── -->
+    <div class="screen" id="s2">
+
+      <!-- Barra de selección acumulada -->
+      <div class="sel-bar">
+        <span class="sel-bar-left">
+          <span id="sel-n">0</span> conceptos seleccionados
+        </span>
+        <span class="sel-total">$<span id="sel-t">0</span></span>
+      </div>
+
+      <!-- Tabs Venta / Mano de obra -->
+      <div class="tabs">
+        <div class="tab active" id="tab-v" onclick="switchTab('venta')">
+          <i class="ti ti-box"></i> Venta
+        </div>
+        <div class="tab" id="tab-m" onclick="switchTab('mdo')">
+          <i class="ti ti-tool"></i> Mano de obra
+        </div>
+      </div>
+
+      <!-- Buscador -->
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input id="srch" type="search" placeholder="Buscar concepto…"
+               oninput="renderCatalog()" autocorrect="off" spellcheck="false"/>
+      </div>
+
+      <!-- Lista del catálogo -->
+      <div class="cat-scroll" id="cat-list"></div>
+
+      <div class="bot">
+        <button class="btn btn-ghost" onclick="goTo(1)">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <button class="btn btn-primary" onclick="goTo(3)">
+          Ver resumen <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── SCREEN 3: RESUMEN ── -->
+    <div class="screen" id="s3">
+      <div class="scroll-area">
+
+        <!-- Tarjeta de cliente -->
+        <div class="client-card">
+          <div class="avatar" id="sum-avatar">?</div>
+          <div>
+            <div class="client-name-sum" id="sum-nombre">—</div>
+            <div class="client-meta" id="sum-meta">—</div>
+          </div>
+        </div>
+
+        <!-- Folio pill -->
+        <span class="folio-pill" id="sum-folio">COT-0001</span>
+
+        <!-- Sección Venta -->
+        <div class="sum-section">
+          <div class="sum-head">
+            <i class="ti ti-box" style="font-size:13px"></i> Venta
+          </div>
+          <div id="sum-venta"></div>
+        </div>
+
+        <!-- Sección Mano de obra -->
+        <div class="sum-section">
+          <div class="sum-head">
+            <i class="ti ti-tool" style="font-size:13px"></i> Mano de obra
+          </div>
+          <div id="sum-mdo"></div>
+        </div>
+
+        <!-- Total -->
+        <div class="total-card">
+          <span class="total-label">Total</span>
+          <span class="total-amount">$<span id="sum-total">0</span></span>
+        </div>
+
+      </div>
+      <div class="bot">
+        <button class="btn btn-ghost" onclick="goTo(2)">
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <button class="btn btn-green" onclick="genPDF()">
+          <i class="ti ti-file-type-pdf"></i> Generar PDF
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /screens -->
+
+  <!-- ===== MODAL: Nuevo concepto ===== -->
+  <div class="modal-bg" id="modal" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nuevo concepto</div>
+      <div class="modal-fields">
+
+        <div class="row2">
+          <div class="field">
+            <label for="m-tag">Etiqueta corta</label>
+            <input id="m-tag" type="text" placeholder="Ej. SUB 12"
+                   autocomplete="off" autocorrect="off" maxlength="14"/>
+          </div>
+          <div class="field">
+            <label for="m-unit">Unidad</label>
+            <select id="m-unit">
+              <option value="pza">pza</option>
+              <option value="par">par</option>
+              <option value="kit">kit</option>
+              <option value="serv">serv</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="m-desc">Descripción completa</label>
+          <input id="m-desc" type="text" placeholder="Ej. Cable RCA blindado 5m baja interferencia"
+                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+        </div>
+
+        <div class="field">
+          <label for="m-precio">Precio base ($)</label>
+          <input id="m-precio" type="number" placeholder="0.00" min="0" step="0.01"/>
+        </div>
+
+        <div class="field">
+          <label for="m-cat">Categoría</label>
+          <select id="m-cat">
+            <option value="venta">Venta</option>
+            <option value="mdo">Mano de obra</option>
+          </select>
+        </div>
+
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModal()">
+          Cancelar
+        </button>
+        <button class="btn btn-primary" style="flex:1" onclick="saveNewConcept()">
+          <i class="ti ti-device-floppy"></i> Guardar y agregar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de notificaciones -->
+  <div class="toast" id="toast"></div>
+
+</div><!-- /app -->
+
+<!-- Scripts -->
+<script src="js/pdf.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
