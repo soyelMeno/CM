@@ -423,8 +423,8 @@ function buildSummary() {
 /* ============================================= */
 function genPDF() {
   showToast('Generando presupuesto…');
-  setTimeout(() => {
-    generarPDF(state);
+  setTimeout(async () => {
+    await generarPDF(state);
     showToast(`${state.folio} descargado ✓`);
   }, 800);
 }
