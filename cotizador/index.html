@@ -20,170 +20,296 @@
 </head>
 <body>
 
-<div id="app">
+<!-- ===== LOGIN ===== -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-brand">MC Auto Sound Design</div>
+    <div class="login-sub">Cotizador</div>
+
+    <div class="field" style="margin-top:24px">
+      <label for="l-usuario">Usuario</label>
+      <input id="l-usuario" type="text" placeholder="usuario"
+             autocomplete="username" autocorrect="off" spellcheck="false"/>
+    </div>
+
+    <div class="field">
+      <label for="l-password">Contraseña</label>
+      <input id="l-password" type="password" placeholder="••••••••"
+             autocomplete="current-password"/>
+    </div>
+
+    <div class="login-error" id="login-error"></div>
+
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="handleLogin()">
+      Entrar
+    </button>
+  </div>
+</div>
+
+<div id="app" style="display:none">
 
   <!-- Status bar simulada -->
   <div class="sb">
     <span id="clock">9:41</span>
-    <span><i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span>
+    <span style="display:flex;align-items:center;gap:10px">
+      <i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i>
+      <i class="ti ti-logout" style="cursor:pointer" onclick="handleLogout()" aria-label="Cerrar sesión"></i>
+    </span>
   </div>
 
-  <!-- Header -->
-  <div class="hdr">
-    <div class="hdr-title">Nueva cotización</div>
-    <div class="hdr-sub" id="folio-hdr">Generando folio…</div>
-  </div>
+  <!-- ===== VISTA: HOME ===== -->
+  <div class="view active" id="view-home">
+    <div class="scroll-area">
 
-  <!-- Stepper -->
-  <div class="stepper">
-    <div class="stp">
-      <div class="stp-dot active" id="sd1">1</div>
-      <div class="stp-line" id="sl1"></div>
-    </div>
-    <div class="stp">
-      <div class="stp-dot" id="sd2">2</div>
-      <div class="stp-line" id="sl2"></div>
-    </div>
-    <div class="stp">
-      <div class="stp-dot" id="sd3">3</div>
-    </div>
-  </div>
+      <div class="home-topbar">
+        <span class="home-brand">Cotizador</span>
+        <div class="home-avatar" id="home-avatar">?</div>
+      </div>
 
-  <!-- ===== SCREENS ===== -->
-  <div class="screens">
+      <!-- Total del mes — solo admin -->
+      <div class="home-total-card" id="home-total-card" style="display:none">
+        <div class="home-total-label">Total del mes · solo admin</div>
+        <div class="home-total-val" id="home-total-val">$0.00</div>
+      </div>
 
-    <!-- ── SCREEN 1: CLIENTE ── -->
-    <div class="screen active" id="s1">
-      <div class="scroll-area">
-
-        <div class="field">
-          <label for="f-nombre">Nombre del cliente</label>
-          <input id="f-nombre" type="text" placeholder="Ej. Carlos Mendoza"
-                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <!-- Acceso primario -->
+      <div class="home-primary" onclick="iniciarNuevaCotizacion()">
+        <div>
+          <div class="home-primary-label">Acceso primario</div>
+          <div class="home-primary-title">Nueva cotización</div>
         </div>
+        <i class="ti ti-plus" style="font-size:28px"></i>
+      </div>
 
-        <div class="field">
-          <label for="f-vehiculo">Vehículo</label>
-          <input id="f-vehiculo" type="text" placeholder="Ej. Honda Civic 2022"
-                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <!-- Métricas rápidas -->
+      <div class="home-metrics">
+        <div class="home-metric-card">
+          <div class="home-metric-label">Pendientes</div>
+          <div class="home-metric-val" id="home-metric-pendientes">—</div>
         </div>
+        <div class="home-metric-card">
+          <div class="home-metric-label">Aprobadas</div>
+          <div class="home-metric-val" id="home-metric-aprobadas">—</div>
+        </div>
+      </div>
 
-        <div class="row2">
+      <!-- Acceso secundario -->
+      <div class="home-secondary" onclick="goToListado()">
+        <div>
+          <div class="home-secondary-label">Acceso secundario</div>
+          <div class="home-secondary-title">Productos · Servicios · Historial</div>
+        </div>
+        <i class="ti ti-chevron-right" style="font-size:18px"></i>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== VISTA: WIZARD (nueva cotización) ===== -->
+  <div class="view" id="view-wizard">
+
+    <!-- Header -->
+    <div class="hdr">
+      <i class="ti ti-arrow-left hdr-back" onclick="goHome()" aria-label="Volver al inicio"></i>
+      <div>
+        <div class="hdr-title">Nueva cotización</div>
+        <div class="hdr-sub" id="folio-hdr">Generando folio…</div>
+      </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="stp">
+        <div class="stp-dot active" id="sd1">1</div>
+        <div class="stp-line" id="sl1"></div>
+      </div>
+      <div class="stp">
+        <div class="stp-dot" id="sd2">2</div>
+        <div class="stp-line" id="sl2"></div>
+      </div>
+      <div class="stp">
+        <div class="stp-dot" id="sd3">3</div>
+      </div>
+    </div>
+
+    <!-- ===== SCREENS ===== -->
+    <div class="screens">
+
+      <!-- ── SCREEN 1: CLIENTE ── -->
+      <div class="screen active" id="s1">
+        <div class="scroll-area">
+
           <div class="field">
-            <label for="f-fecha">Fecha</label>
-            <input id="f-fecha" type="date"/>
+            <label for="f-nombre">Nombre del cliente</label>
+            <input id="f-nombre" type="text" placeholder="Ej. Carlos Mendoza"
+                   autocomplete="off" autocorrect="off" spellcheck="false"/>
           </div>
+
           <div class="field">
-            <label for="f-dias">Días estimados</label>
-            <input id="f-dias" type="number" placeholder="2" min="1" max="999"/>
+            <label for="f-vehiculo">Vehículo</label>
+            <input id="f-vehiculo" type="text" placeholder="Ej. Honda Civic 2022"
+                   autocomplete="off" autocorrect="off" spellcheck="false"/>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="f-fecha">Fecha</label>
+              <input id="f-fecha" type="date"/>
+            </div>
+            <div class="field">
+              <label for="f-dias">Días estimados</label>
+              <input id="f-dias" type="number" placeholder="2" min="1" max="999"/>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Folio</label>
+            <input class="readonly" id="f-folio" type="text" readonly
+                   tabindex="-1" aria-label="Folio generado automáticamente"/>
+          </div>
+
+        </div>
+        <div class="bot">
+          <button class="btn btn-primary" onclick="goTo(2)">
+            Agregar conceptos <i class="ti ti-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 2: CONCEPTOS ── -->
+      <div class="screen" id="s2">
+
+        <!-- Barra de selección acumulada -->
+        <div class="sel-bar">
+          <span class="sel-bar-left">
+            <span id="sel-n">0</span> conceptos seleccionados
+          </span>
+          <span class="sel-total">$<span id="sel-t">0</span></span>
+        </div>
+
+        <!-- Tabs Venta / Mano de obra -->
+        <div class="tabs">
+          <div class="tab active" id="tab-v" onclick="switchTab('venta')">
+            <i class="ti ti-box"></i> Venta
+          </div>
+          <div class="tab" id="tab-m" onclick="switchTab('mdo')">
+            <i class="ti ti-tool"></i> Mano de obra
           </div>
         </div>
 
-        <div class="field">
-          <label>Folio</label>
-          <input class="readonly" id="f-folio" type="text" readonly
-                 tabindex="-1" aria-label="Folio generado automáticamente"/>
+        <!-- Buscador -->
+        <div class="search-wrap">
+          <i class="ti ti-search"></i>
+          <input id="srch" type="search" placeholder="Buscar concepto…"
+                 oninput="renderCatalog()" autocorrect="off" spellcheck="false"/>
         </div>
 
+        <!-- Lista del catálogo -->
+        <div class="cat-scroll" id="cat-list"></div>
+
+        <div class="bot">
+          <button class="btn btn-ghost" onclick="goTo(1)">
+            <i class="ti ti-arrow-left"></i>
+          </button>
+          <button class="btn btn-primary" onclick="goTo(3)">
+            Ver resumen <i class="ti ti-arrow-right"></i>
+          </button>
+        </div>
       </div>
-      <div class="bot">
-        <button class="btn btn-primary" onclick="goTo(2)">
-          Agregar conceptos <i class="ti ti-arrow-right"></i>
-        </button>
+
+      <!-- ── SCREEN 3: RESUMEN ── -->
+      <div class="screen" id="s3">
+        <div class="scroll-area">
+
+          <!-- Tarjeta de cliente -->
+          <div class="client-card">
+            <div class="avatar" id="sum-avatar">?</div>
+            <div>
+              <div class="client-name-sum" id="sum-nombre">—</div>
+              <div class="client-meta" id="sum-meta">—</div>
+            </div>
+          </div>
+
+          <!-- Folio pill -->
+          <span class="folio-pill" id="sum-folio">Pendiente</span>
+
+          <!-- Sección Venta -->
+          <div class="sum-section">
+            <div class="sum-head">
+              <i class="ti ti-box" style="font-size:13px"></i> Venta
+            </div>
+            <div id="sum-venta"></div>
+          </div>
+
+          <!-- Sección Mano de obra -->
+          <div class="sum-section">
+            <div class="sum-head">
+              <i class="ti ti-tool" style="font-size:13px"></i> Mano de obra
+            </div>
+            <div id="sum-mdo"></div>
+          </div>
+
+          <!-- Total -->
+          <div class="total-card">
+            <span class="total-label">Total</span>
+            <span class="total-amount">$<span id="sum-total">0</span></span>
+          </div>
+
+        </div>
+        <div class="bot">
+          <button class="btn btn-ghost" onclick="goTo(2)">
+            <i class="ti ti-arrow-left"></i>
+          </button>
+          <button class="btn btn-green" onclick="genPDF()">
+            <i class="ti ti-file-type-pdf"></i> Generar PDF
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /screens -->
+  </div><!-- /view-wizard -->
+
+  <!-- ===== VISTA: LISTADO (Productos · Servicios · Historial) ===== -->
+  <div class="view" id="view-listado">
+
+    <div class="hdr">
+      <i class="ti ti-arrow-left hdr-back" onclick="goHome()" aria-label="Volver al inicio"></i>
+      <div>
+        <div class="hdr-title">Productos y cotizaciones</div>
+        <div class="hdr-sub">&nbsp;</div>
       </div>
     </div>
 
-    <!-- ── SCREEN 2: CONCEPTOS ── -->
-    <div class="screen" id="s2">
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" id="ltab-productos" onclick="switchListadoTab('productos')">Productos</div>
+      <div class="tab" id="ltab-servicios" onclick="switchListadoTab('servicios')">Servicios</div>
+      <div class="tab" id="ltab-historial" onclick="switchListadoTab('historial')">Historial</div>
+    </div>
 
-      <!-- Barra de selección acumulada -->
-      <div class="sel-bar">
-        <span class="sel-bar-left">
-          <span id="sel-n">0</span> conceptos seleccionados
-        </span>
-        <span class="sel-total">$<span id="sel-t">0</span></span>
-      </div>
-
-      <!-- Tabs Venta / Mano de obra -->
-      <div class="tabs">
-        <div class="tab active" id="tab-v" onclick="switchTab('venta')">
-          <i class="ti ti-box"></i> Venta
-        </div>
-        <div class="tab" id="tab-m" onclick="switchTab('mdo')">
-          <i class="ti ti-tool"></i> Mano de obra
-        </div>
-      </div>
-
-      <!-- Buscador -->
-      <div class="search-wrap">
+    <!-- Buscador + filtro/nuevo -->
+    <div class="search-wrap" style="display:flex;gap:8px;align-items:center;padding-right:16px">
+      <div style="position:relative;flex:1">
         <i class="ti ti-search"></i>
-        <input id="srch" type="search" placeholder="Buscar concepto…"
-               oninput="renderCatalog()" autocorrect="off" spellcheck="false"/>
+        <input id="lsrch" type="search" placeholder="Buscar…"
+               oninput="renderListado()" autocorrect="off" spellcheck="false"/>
       </div>
-
-      <!-- Lista del catálogo -->
-      <div class="cat-scroll" id="cat-list"></div>
-
-      <div class="bot">
-        <button class="btn btn-ghost" onclick="goTo(1)">
-          <i class="ti ti-arrow-left"></i>
-        </button>
-        <button class="btn btn-primary" onclick="goTo(3)">
-          Ver resumen <i class="ti ti-arrow-right"></i>
-        </button>
-      </div>
+      <select id="lstatus-filter" onchange="renderListado()" style="display:none;width:130px;flex-shrink:0">
+        <option value="">Todos</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="aprobada">Aprobada</option>
+        <option value="rechazada">Rechazada</option>
+        <option value="vencida">Vencida</option>
+      </select>
+      <button class="btn btn-ghost" id="lbtn-nuevo" style="flex-shrink:0;padding:9px 12px" onclick="abrirModalProducto(null)">
+        <i class="ti ti-plus" style="font-size:16px"></i>
+      </button>
     </div>
 
-    <!-- ── SCREEN 3: RESUMEN ── -->
-    <div class="screen" id="s3">
-      <div class="scroll-area">
+    <!-- Lista -->
+    <div class="cat-scroll" id="listado-list"></div>
 
-        <!-- Tarjeta de cliente -->
-        <div class="client-card">
-          <div class="avatar" id="sum-avatar">?</div>
-          <div>
-            <div class="client-name-sum" id="sum-nombre">—</div>
-            <div class="client-meta" id="sum-meta">—</div>
-          </div>
-        </div>
-
-        <!-- Folio pill -->
-        <span class="folio-pill" id="sum-folio">COT-0001</span>
-
-        <!-- Sección Venta -->
-        <div class="sum-section">
-          <div class="sum-head">
-            <i class="ti ti-box" style="font-size:13px"></i> Venta
-          </div>
-          <div id="sum-venta"></div>
-        </div>
-
-        <!-- Sección Mano de obra -->
-        <div class="sum-section">
-          <div class="sum-head">
-            <i class="ti ti-tool" style="font-size:13px"></i> Mano de obra
-          </div>
-          <div id="sum-mdo"></div>
-        </div>
-
-        <!-- Total -->
-        <div class="total-card">
-          <span class="total-label">Total</span>
-          <span class="total-amount">$<span id="sum-total">0</span></span>
-        </div>
-
-      </div>
-      <div class="bot">
-        <button class="btn btn-ghost" onclick="goTo(2)">
-          <i class="ti ti-arrow-left"></i>
-        </button>
-        <button class="btn btn-green" onclick="genPDF()">
-          <i class="ti ti-file-type-pdf"></i> Generar PDF
-        </button>
-      </div>
-    </div>
-
-  </div><!-- /screens -->
+  </div><!-- /view-listado -->
 
   <!-- ===== MODAL: Nuevo concepto ===== -->
   <div class="modal-bg" id="modal" onclick="closeModal(event)">
@@ -240,14 +366,109 @@
     </div>
   </div>
 
+  <!-- ===== MODAL: Producto del catálogo (crear/editar) ===== -->
+  <div class="modal-bg" id="modal-producto" onclick="closeModalProducto(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="mp-titulo">Nuevo producto</div>
+      <div class="modal-fields">
+
+        <div class="field">
+          <label for="mp-nombre">Nombre</label>
+          <input id="mp-nombre" type="text" placeholder="Ej. Subwoofer Kicker 12&quot;"
+                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+        </div>
+
+        <div class="field">
+          <label for="mp-desc">Descripción</label>
+          <input id="mp-desc" type="text" placeholder="Descripción breve"
+                 autocomplete="off" autocorrect="off" spellcheck="false"/>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="mp-tipo">Tipo</label>
+            <select id="mp-tipo">
+              <option value="producto">Producto</option>
+              <option value="servicio">Servicio</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mp-categoria">Categoría</label>
+            <input id="mp-categoria" type="text" placeholder="Ej. audio"
+                   autocomplete="off" autocorrect="off"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="mp-precio">Precio ($)</label>
+          <input id="mp-precio" type="number" placeholder="0.00" min="0" step="0.01"/>
+        </div>
+
+        <div class="field" id="mp-activo-wrap" style="flex-direction:row;align-items:center;gap:8px">
+          <input id="mp-activo" type="checkbox" style="width:auto" checked/>
+          <label for="mp-activo" style="margin:0;text-transform:none;font-size:13px;font-weight:500">
+            Activo (visible al cotizar)
+          </label>
+        </div>
+
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModalProducto()">
+          Cancelar
+        </button>
+        <button class="btn btn-primary" style="flex:1" onclick="guardarProducto()">
+          <i class="ti ti-device-floppy"></i> Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Cotización del historial ===== -->
+  <div class="modal-bg" id="modal-historial" onclick="closeModalHistorial(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+        <div class="modal-title" id="mh-folio" style="margin-bottom:0">COT0000</div>
+      </div>
+      <div class="client-meta" id="mh-cliente" style="margin-bottom:14px">—</div>
+
+      <div class="hist-readonly" id="mh-detalle"></div>
+
+      <div class="field" style="margin-top:14px">
+        <label for="mh-status">Estado (editable)</label>
+        <select id="mh-status">
+          <option value="pendiente">Pendiente</option>
+          <option value="aprobada">Aprobada</option>
+          <option value="rechazada">Rechazada</option>
+          <option value="vencida">Vencida</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeModalHistorial()">
+          Cerrar
+        </button>
+        <button class="btn btn-ghost" style="flex:1" onclick="reimprimirCotizacion()">
+          <i class="ti ti-printer"></i> Reimprimir
+        </button>
+        <button class="btn btn-primary" style="flex:1" onclick="guardarStatusCotizacion()">
+          <i class="ti ti-device-floppy"></i> Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast de notificaciones -->
   <div class="toast" id="toast"></div>
 
 </div><!-- /app -->
 
 <!-- Scripts -->
-<script src="js/pdf.js?v=5"></script>
-<script src="js/app.js?v=5"></script>
+<script type="module" src="js/firebase-config.js?v=2"></script>
+<script src="js/pdf.js?v=7"></script>
+<script type="module" src="js/app.js?v=8"></script>
 
 </body>
 </html>
