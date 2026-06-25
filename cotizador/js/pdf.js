@@ -98,8 +98,6 @@ async function generarPDF(state) {
       overflow: hidden;
     }
 
-    /* Fondo: data URI directo en el atributo style del elemento .bg,
-       así evitamos cualquier problema con escape de comillas en el template */
     .bg {
       position: absolute;
       inset: 0;
@@ -127,7 +125,6 @@ async function generarPDF(state) {
       font-family: 'Poppins', sans-serif;
     }
 
-    /* ── 1. Nombre taller centrado ── */
     .logo-block {
       text-align: center;
       padding-bottom: 30px;
@@ -145,7 +142,6 @@ async function generarPDF(state) {
       line-height: 1.2;
     }
 
-    /* ── 2. Fila: PRESUPUESTO (izq, abajo) + Datos cliente (der, izq-justificado) ── */
     .client-header {
       display: flex;
       justify-content: space-between;
@@ -155,7 +151,6 @@ async function generarPDF(state) {
       flex-shrink: 0;
     }
 
-    /* PRESUPUESTO — izquierda, alineado a la base de los datos */
     .presupuesto-aside { flex-shrink: 0; }
 
     .presupuesto-word {
@@ -169,10 +164,7 @@ async function generarPDF(state) {
       line-height: 1;
     }
 
-    /* Datos cliente — derecha, texto alineado a la izquierda */
-    .client-data {
-      text-align: left;
-    }
+    .client-data { text-align: left; }
 
     .info-line {
       display: flex;
@@ -182,13 +174,12 @@ async function generarPDF(state) {
       margin-bottom: 10px;
     }
 
-    /* Etiqueta: misma apariencia que el valor pero un punto menos, mismo color */
     .ilabel {
       font-family: 'Poppins', sans-serif;
-      font-size: 21px;      /* valor=24, etiqueta=21 — aprox -1 punto relativo */
+      font-size: 21px;
       font-weight: 400;
       letter-spacing: .04em;
-      color: rgba(255,255,255,.92);  /* mismo color que .ival */
+      color: rgba(255,255,255,.92);
       flex-shrink: 0;
     }
 
@@ -209,7 +200,6 @@ async function generarPDF(state) {
       color: rgba(255,255,255,.92);
     }
 
-    /* ── 3. Texto intro ── */
     .intro-text {
       font-family: 'Poppins', sans-serif;
       font-size: 16px;
@@ -223,7 +213,6 @@ async function generarPDF(state) {
       flex-shrink: 0;
     }
 
-    /* ── 4. Tabla ── */
     .table-container {
       border: 1px solid rgba(255,255,255,.15);
       border-radius: 8px;
@@ -277,7 +266,6 @@ async function generarPDF(state) {
     td.c-pu   { justify-content: flex-end; color: rgba(255,255,255,.5); font-size: 17px; font-weight: 400; }
     td.c-imp  { justify-content: flex-end; font-size: 18px; font-weight: 600; color: #fff; }
 
-    /* ── 5. Subtotal ── */
     .subtotal-wrap {
       display: flex;
       justify-content: flex-end;
@@ -306,7 +294,6 @@ async function generarPDF(state) {
       letter-spacing: .01em;
     }
 
-    /* ── 6. Footer ── */
     .footer {
       margin-top: auto;
       padding-top: 24px;
@@ -395,7 +382,7 @@ async function generarPDF(state) {
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = `${folio}_${(c.nombre || 'presupuesto').replace(/\s+/g, '_')}.html`;
+  a.download = `${folio}_-_${(c.nombre || 'presupuesto').replace(/\s+/g, '_')}.html`;
   a.click();
   URL.revokeObjectURL(url);
 }
