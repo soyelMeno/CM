@@ -783,3 +783,95 @@ body {
   font-family: var(--mono);
   margin-left: auto;
 }
+
+/* =============================================
+   LOGIN
+   ============================================= */
+.login-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 500;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+}
+
+.login-brand {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+}
+
+.login-sub {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+.login-card .field {
+  margin-top: 14px;
+}
+
+.login-error {
+  font-size: 12px;
+  color: #DC2626;
+  min-height: 16px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ROUTER DE VISTAS */
+.view { display:none; flex:1; flex-direction:column; overflow:hidden; min-height:0; }
+.view.active { display:flex; }
+.hdr { display:flex; align-items:center; gap:10px; }
+.hdr-back { font-size:18px; color:var(--text2); cursor:pointer; flex-shrink:0; }
+
+/* HOME */
+.home-topbar { display:flex; justify-content:space-between; align-items:center; }
+.home-brand { font-size:16px; font-weight:600; }
+.home-avatar { width:32px; height:32px; border-radius:50%; background:var(--purple-light); color:var(--purple); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; }
+.home-total-card { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; }
+.home-total-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
+.home-total-val { font-size:24px; font-weight:600; font-family:var(--mono); }
+.home-primary { background:var(--purple); color:#fff; border-radius:var(--radius); padding:20px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; transition:transform .1s; }
+.home-primary:active { transform:scale(.98); }
+.home-primary-label { font-size:12px; color:rgba(255,255,255,.75); margin-bottom:3px; }
+.home-primary-title { font-size:17px; font-weight:600; }
+.home-metrics { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.home-metric-card { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; }
+.home-metric-label { font-size:12px; color:var(--text2); margin-bottom:3px; }
+.home-metric-val { font-size:20px; font-weight:600; }
+.home-secondary { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+.home-secondary-label { font-size:12px; color:var(--text2); margin-bottom:2px; }
+.home-secondary-title { font-size:14px; font-weight:600; }
+
+/* LISTADO */
+.list-row { display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:11px 12px; cursor:pointer; margin-bottom:6px; }
+.list-row-info { flex:1; min-width:0; }
+.list-row-title { font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.list-row-sub { font-size:12px; color:var(--text2); margin-top:2px; }
+.list-row-price { font-size:13px; font-weight:600; font-family:var(--mono); flex-shrink:0; }
+.list-row.inactivo { opacity:.45; }
+.status-badge { font-size:11px; font-weight:600; padding:2px 9px; border-radius:20px; flex-shrink:0; }
+.status-pendiente { background:#FEF3C7; color:#92400E; }
+.status-aprobada { background:#D1FAE5; color:#065F46; }
+.status-rechazada { background:#FEE2E2; color:#991B1B; }
+.status-vencida { background:#E5E3DC; color:#6B6860; }
+.hist-readonly { background:var(--bg); border-radius:var(--radius-sm); padding:10px 12px; font-size:13px; max-height:220px; overflow-y:auto; }
+.hist-readonly-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--border); }
+.hist-readonly-row:last-child { border-bottom:none; }
+.list-empty { text-align:center; color:var(--text3); font-size:13px; padding:30px 0; }
