@@ -474,7 +474,7 @@ function loadSettings() {
     if (raw) return JSON.parse(raw);
   } catch(e) {}
   return {
-    taller: { nombre: 'MC Auto Sound Design', telefono: '', ciudad: 'Villahermosa, Tabasco' },
+    taller: { nombre: '', telefono: '', ciudad: 'Villahermosa, Tabasco' },
     folio:  { prefijo: 'COT', contador: 0 },
     cotizacion: {
       validez_dias: 30,

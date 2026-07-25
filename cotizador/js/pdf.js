@@ -67,7 +67,7 @@ async function generarPDF(state) {
   const nombre       = (c.nombre   || '—').toUpperCase();
   const vehiculo     = (c.vehiculo || '—').toUpperCase();
   const folio        = state.folio;
-  const tallerNombre = settings.taller?.nombre || 'MC Auto Sound Design';
+  const tallerNombre = settings.taller?.nombre || '';
   const nota         = settings.cotizacion?.nota_footer || '';
 
   /* La imagen de fondo se inyecta como inline style en el elemento .bg
